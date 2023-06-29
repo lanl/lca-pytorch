@@ -9,6 +9,7 @@ setup(
     author_email="mteti@lanl.gov",
     packages=["lcapt"],
     python_requires = '>= 3.8',
+    license='BSD',
     install_requires=[
         "black>=22.1.0",
         "matplotlib>=3.5.0",
