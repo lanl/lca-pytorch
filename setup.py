@@ -6,7 +6,7 @@ setup(
     version="0.0.1",
     description="LCA Sparse Coding in PyTorch.",
     author="Michael Teti",
-    author_email="mteti@fau.edu",
+    author_email="mteti@lanl.gov",
     packages=["lcapt"],
     install_requires=[
         "black>=22.1.0",
