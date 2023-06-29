@@ -11,7 +11,6 @@ setup(
     python_requires = '>= 3.8',
     license='BSD',
     install_requires=[
-        "black>=22.1.0",
         "matplotlib>=3.5.0",
         "numpy>=1.21.2",
         "pandas>=1.3.4",
@@ -21,7 +20,6 @@ setup(
         "torch>=1.10.1",
         "torchaudio>=0.10.1",
         "torchvision>=0.11.2",
-        "typing_extensions>=4.1.1",
         "wheel>=0.37.0",
     ],
 )
