@@ -8,6 +8,7 @@ setup(
     author="Michael Teti",
     author_email="mteti@lanl.gov",
     packages=["lcapt"],
+    python_requires = '>= 3.8',
     install_requires=[
         "black>=22.1.0",
         "matplotlib>=3.5.0",
