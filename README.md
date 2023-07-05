@@ -72,7 +72,7 @@ LCA solves the $\ell_1$-penalized reconstruction problem
 
 <div align="center">
 
-$\underset{a}{\operatorname{\min}} \lvert|s - a * \Phi \rvert|_2^2 + \lambda \lvert| a \rvert|_1$
+$\underset{a}\min \lvert|s - a * \Phi \rvert|_2^2 + \lambda \lvert| a \rvert|_1$
 
 <div align="left">
 
