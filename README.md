@@ -1,7 +1,7 @@
 # PyTorch Implementation of the LCA Sparse Coding Algorithm
 
 [![CI](https://github.com/lanl/lca-pytorch/actions/workflows/build.yml/badge.svg)](https://github.com/lanl/lca-pytorch/actions/workflows/build.yml)
-[![codecov](https://codecov.io/gh/MichaelTeti/lca-pytorch/branch/main/graph/badge.svg?token=4EPI05G5CY)](https://codecov.io/gh/MichaelTeti/lca-pytorch)
+[![codecov](https://codecov.io/gh/lanl/lca-pytorch/branch/main/graph/badge.svg?token=XfMW3nzzj0)](https://codecov.io/gh/lanl/lca-pytorch)
 ![CodeQL](https://github.com/lanl/lca-pytorch/workflows/CodeQL/badge.svg)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
