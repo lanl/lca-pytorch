@@ -8,8 +8,8 @@ setup(
     author="Michael Teti",
     author_email="mteti@lanl.gov",
     packages=["lcapt"],
-    python_requires = '>= 3.8',
-    license='BSD',
+    python_requires=">=3.8",
+    license="BSD",
     install_requires=[
         "matplotlib>=3.5.0",
         "numpy>=1.21.2",
