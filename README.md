@@ -114,4 +114,4 @@ Below is a mapping between the variable names used in this implementation and th
     * [Dictionary Learning on Cifar-10 Images](https://github.com/lanl/lca-pytorch/blob/main/examples/pytorch_optim_dictionary_learning_cifar.ipynb)
 
 ## License
-LCA-PyTorch is provided under a BSD license with a "modifications must be indicated" clause.  See [the LICENSE file](https://github.com/lanl/lca-pytorch/blob/main/LICENSE) for the full text.
+LCA-PyTorch is provided under a BSD license with a "modifications must be indicated" clause.  See [the LICENSE file](https://github.com/lanl/lca-pytorch/blob/main/LICENSE) for the full text. Internally, the LCA-PyTorch package is known as LA-CC-23-064.
