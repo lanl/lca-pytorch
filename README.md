@@ -61,7 +61,7 @@ lcapt_conv = LCAConv2D(
   in_neurons=3,
   kernel_size=7,
   stride=2,
-  padding='same'
+  pad='same'
 )
 lcapt_out = lcapt_conv(inputs)
 ```
