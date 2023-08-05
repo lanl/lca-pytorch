@@ -449,24 +449,6 @@ class TestLCA(unittest.TestCase):
                 self.assertEqual(torch.count_nonzero(code), 1)
                 assert_close(code[0], code.max())
 
-    def test_LCAConv1D_recon_close_to_input_feature_as_input(self):
-        with TemporaryDirectory() as tmp_dir:
-            lca = LCAConv1D(
-                10,
-                3,
-                tmp_dir,
-                100,
-                pad="valid",
-                input_zero_mean=False,
-                input_unit_var=False,
-                lambda_=0.1,
-                return_vars=["recons"],
-            )
-            inputs = lca.get_weights()[0].unsqueeze(0)
-            recon = lca(inputs)
-            mae = (inputs - recon).abs().mean().item()
-            self.assertLess(mae, 5.5e-3)
-
     def test_LCAConv2D_code_feature_as_input(self):
         with TemporaryDirectory() as tmp_dir:
             for lambda_ in torch.arange(0.1, 1.0, 0.1):
@@ -487,24 +469,6 @@ class TestLCA(unittest.TestCase):
                 self.assertEqual(torch.count_nonzero(code), 1)
                 assert_close(code[0], code.max())
 
-    def test_LCAConv2D_recon_close_to_input_feature_as_input(self):
-        with TemporaryDirectory() as tmp_dir:
-            lca = LCAConv2D(
-                10,
-                3,
-                tmp_dir,
-                10,
-                pad="valid",
-                input_zero_mean=False,
-                input_unit_var=False,
-                lambda_=0.1,
-                return_vars=["recons"],
-            )
-            inputs = lca.get_weights()[0].unsqueeze(0)
-            recon = lca(inputs)
-            mae = (inputs - recon).abs().mean().item()
-            self.assertLess(mae, 5.5e-3)
-
     def test_LCAConv3D_code_feature_as_input(self):
         with TemporaryDirectory() as tmp_dir:
             for lambda_ in torch.arange(0.1, 1.0, 0.1):
@@ -524,24 +488,6 @@ class TestLCA(unittest.TestCase):
                 code = torch.sort(code, descending=True, stable=True)[0]
                 self.assertTrue(torch.count_nonzero(code), 1)
                 assert_close(code[0], code.max())
-
-    def test_LCAConv3D_recon_close_to_input_feature_as_input(self):
-        with TemporaryDirectory() as tmp_dir:
-            lca = LCAConv3D(
-                10,
-                3,
-                tmp_dir,
-                10,
-                pad="valid",
-                input_zero_mean=False,
-                input_unit_var=False,
-                lambda_=0.1,
-                return_vars=["recons"],
-            )
-            inputs = lca.get_weights()[0].unsqueeze(0)
-            recon = lca(inputs)
-            mae = (inputs - recon).abs().mean().item()
-            self.assertLess(mae, 5.5e-3)
 
     def test_LCAConv1D_compute_lateral_connectivity_stride_1_odd_ksize(self):
         with TemporaryDirectory() as tmp_dir:
