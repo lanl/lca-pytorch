@@ -533,6 +533,8 @@ class LCAConv1D(_LCAConvBase):
             loop. This is useful when not using the built-in dictionary
             learning method, or for things like adversarial attacks.
             Default: False
+        weight_init (callable, optional): Initialization to use for the
+            dictionary weights. Default: truncated normal
 
     Shape:
         Input: (N, in_neurons, L)
@@ -703,6 +705,8 @@ class LCAConv2D(_LCAConvBase):
             loop. This is useful when not using the built-in dictionary
             learning method, or for things like adversarial attacks.
             Default: False
+        weight_init (callable, optional): Initialization to use for the
+            dictionary weights. Default: truncated normal
 
     Shape:
         Input: (N, in_neurons, H, W)
@@ -874,6 +878,8 @@ class LCAConv3D(_LCAConvBase):
             loop. This is useful when not using the built-in dictionary
             learning method, or for things like adversarial attacks.
             Default: False
+        weight_init (callable, optional): Initialization to use for the
+            dictionary weights. Default: truncated normal
         no_time_pad (bool, optional): If True, no padding will be performed
             in dimension D regardless of the value of the pad argument.
             Allows for control over padding in the depth dimension that is
