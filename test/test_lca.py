@@ -2027,6 +2027,48 @@ class TestLCA(unittest.TestCase):
                             rtol=0,
                         )
 
+    def test_LCAConv1D_weight_initialization(self):
+        with TemporaryDirectory() as tmp_dir:
+            # zeros
+            lca = LCAConv1D(1000, 3, tmp_dir, weight_init=torch.nn.init.zeros_)
+            expected_weights = torch.zeros_like(lca.get_weights())
+            self.assertEqual((lca.get_weights() - expected_weights).sum().item(), 0.0)
+            # ones
+            lca = LCAConv1D(1000, 3, tmp_dir, weight_init=torch.nn.init.ones_)
+            expected_weights = torch.ones_like(lca.get_weights())
+            expected_weights = expected_weights / (
+                expected_weights.norm(2, (1, 2), True) + 1e-12
+            )
+            self.assertEqual((lca.get_weights() - expected_weights).sum().item(), 0.0)
+
+    def test_LCAConv2D_weight_initialization(self):
+        with TemporaryDirectory() as tmp_dir:
+            # zeros
+            lca = LCAConv2D(1000, 3, tmp_dir, weight_init=torch.nn.init.zeros_)
+            expected_weights = torch.zeros_like(lca.get_weights())
+            self.assertEqual((lca.get_weights() - expected_weights).sum().item(), 0.0)
+            # ones
+            lca = LCAConv2D(1000, 3, tmp_dir, weight_init=torch.nn.init.ones_)
+            expected_weights = torch.ones_like(lca.get_weights())
+            expected_weights = expected_weights / (
+                expected_weights.norm(2, (1, 2, 3), True) + 1e-12
+            )
+            self.assertEqual((lca.get_weights() - expected_weights).sum().item(), 0.0)
+
+    def test_LCAConv3D_weight_initialization(self):
+        with TemporaryDirectory() as tmp_dir:
+            # zeros
+            lca = LCAConv3D(1000, 3, tmp_dir, weight_init=torch.nn.init.zeros_)
+            expected_weights = torch.zeros_like(lca.get_weights())
+            self.assertEqual((lca.get_weights() - expected_weights).sum().item(), 0.0)
+            # ones
+            lca = LCAConv3D(1000, 3, tmp_dir, weight_init=torch.nn.init.ones_)
+            expected_weights = torch.ones_like(lca.get_weights())
+            expected_weights = expected_weights / (
+                expected_weights.norm(2, (1, 2, 3, 4), True) + 1e-12
+            )
+            self.assertEqual((lca.get_weights() - expected_weights).sum().item(), 0.0)
+
 
 if __name__ == "__main__":
     unittest.main()
