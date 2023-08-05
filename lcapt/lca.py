@@ -70,6 +70,7 @@ class _LCAConvBase(torch.nn.Module):
         req_grad: bool = False,
         weight_init: Callable[[Tensor], Tensor] = torch.nn.init.trunc_normal_,
         no_time_pad: bool = False,
+        **weight_init_kwargs,
     ) -> None:
         self.d_update_clip = d_update_clip
         self.dtype = dtype
@@ -97,6 +98,7 @@ class _LCAConvBase(torch.nn.Module):
         self.track_metrics = track_metrics
         self.transfer_func = transfer_func
         self.weight_init = weight_init
+        self.weight_init_kwargs = weight_init_kwargs
 
         os.makedirs(self.result_dir, exist_ok=True)
         self._write_params(deepcopy(vars(self)))
@@ -580,6 +582,7 @@ class LCAConv1D(_LCAConvBase):
         lr_schedule: Optional[Callable[[int], float]] = None,
         req_grad: bool = False,
         weight_init: Callable[[Tensor], Tensor] = torch.nn.init.trunc_normal_,
+        **weight_init_kwargs,
     ) -> None:
         super(LCAConv1D, self).__init__(
             out_neurons,
@@ -606,6 +609,7 @@ class LCAConv1D(_LCAConvBase):
             req_grad,
             weight_init,
             False,
+            **weight_init_kwargs,
         )
 
     def _init_weight_tensor(self) -> None:
@@ -615,7 +619,7 @@ class LCAConv1D(_LCAConvBase):
             self.kernel_size if type(self.kernel_size) == int else self.kernel_size[0],
             dtype=self.dtype,
         )
-        weights = self.weight_init(weights)
+        weights = self.weight_init(weights, **self.weight_init_kwargs)
         self.weights = torch.nn.Parameter(weights, requires_grad=self.req_grad)
         self.normalize_weights()
 
@@ -752,6 +756,7 @@ class LCAConv2D(_LCAConvBase):
         lr_schedule: Optional[Callable[[int], float]] = None,
         req_grad: bool = False,
         weight_init: Callable[[Tensor], Tensor] = torch.nn.init.trunc_normal_,
+        **weight_init_kwargs,
     ) -> None:
         super(LCAConv2D, self).__init__(
             out_neurons,
@@ -778,6 +783,7 @@ class LCAConv2D(_LCAConvBase):
             req_grad,
             weight_init,
             True,
+            **weight_init_kwargs,
         )
 
     def _init_weight_tensor(self) -> None:
@@ -788,7 +794,7 @@ class LCAConv2D(_LCAConvBase):
             self.kernel_size if type(self.kernel_size) == int else self.kernel_size[1],
             dtype=self.dtype,
         )
-        weights = self.weight_init(weights)
+        weights = self.weight_init(weights, **self.weight_init_kwargs)
         self.weights = torch.nn.Parameter(weights, requires_grad=self.req_grad)
         self.normalize_weights()
 
@@ -931,6 +937,7 @@ class LCAConv3D(_LCAConvBase):
         req_grad: bool = False,
         weight_init: Callable[[Tensor], Tensor] = torch.nn.init.trunc_normal_,
         no_time_pad: bool = False,
+        **weight_init_kwargs,
     ) -> None:
         super(LCAConv3D, self).__init__(
             out_neurons,
@@ -957,6 +964,7 @@ class LCAConv3D(_LCAConvBase):
             req_grad,
             weight_init,
             no_time_pad,
+            **weight_init_kwargs,
         )
 
     def _init_weight_tensor(self) -> None:
@@ -968,7 +976,7 @@ class LCAConv3D(_LCAConvBase):
             self.kernel_size if type(self.kernel_size) == int else self.kernel_size[2],
             dtype=self.dtype,
         )
-        weights = self.weight_init(weights)
+        weights = self.weight_init(weights, **self.weight_init_kwargs)
         self.weights = torch.nn.Parameter(weights, requires_grad=self.req_grad)
         self.normalize_weights()
 
