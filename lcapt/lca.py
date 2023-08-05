@@ -537,6 +537,8 @@ class LCAConv1D(_LCAConvBase):
             Default: False
         weight_init (callable, optional): Initialization to use for the
             dictionary weights. Default: truncated normal
+        **weight_init_kwargs: Keyword arguments for the method given to the
+            weight_init argument.
 
     Shape:
         Input: (N, in_neurons, L)
@@ -711,6 +713,8 @@ class LCAConv2D(_LCAConvBase):
             Default: False
         weight_init (callable, optional): Initialization to use for the
             dictionary weights. Default: truncated normal
+        **weight_init_kwargs: Keyword arguments for the method given to the
+            weight_init argument.
 
     Shape:
         Input: (N, in_neurons, H, W)
@@ -890,6 +894,8 @@ class LCAConv3D(_LCAConvBase):
             in dimension D regardless of the value of the pad argument.
             Allows for control over padding in the depth dimension that is
             independent of that in the spatial dimensions.
+        **weight_init_kwargs: Keyword arguments for the method given to the
+            weight_init argument.
 
     Shape:
         Input: (N, in_neurons, D, H, W)
