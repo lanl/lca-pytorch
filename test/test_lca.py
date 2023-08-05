@@ -2069,6 +2069,24 @@ class TestLCA(unittest.TestCase):
             )
             self.assertEqual((lca.get_weights() - expected_weights).sum().item(), 0.0)
 
+    def test_LCAConv1D_weight_init_kwargs(self):
+        with TemporaryDirectory() as tmp_dir:
+            LCAConv1D(10, 3, tmp_dir, weight_init=torch.nn.init.constant_, val=25)
+            with self.assertRaises(TypeError):
+                LCAConv1D(10, 3, tmp_dir, weight_init=torch.nn.init.constant_)
+
+    def test_LCAConv2D_weight_init_kwargs(self):
+        with TemporaryDirectory() as tmp_dir:
+            LCAConv2D(10, 3, tmp_dir, weight_init=torch.nn.init.constant_, val=25)
+            with self.assertRaises(TypeError):
+                LCAConv2D(10, 3, tmp_dir, weight_init=torch.nn.init.constant_)
+
+    def test_LCAConv3D_weight_init_kwargs(self):
+        with TemporaryDirectory() as tmp_dir:
+            LCAConv3D(10, 3, tmp_dir, weight_init=torch.nn.init.constant_, val=25)
+            with self.assertRaises(TypeError):
+                LCAConv3D(10, 3, tmp_dir, weight_init=torch.nn.init.constant_)
+
 
 if __name__ == "__main__":
     unittest.main()
