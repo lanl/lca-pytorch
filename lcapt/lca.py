@@ -68,7 +68,9 @@ class _LCAConvBase(torch.nn.Module):
         d_update_clip: float = np.inf,
         lr_schedule: Optional[Callable[[int], float]] = None,
         req_grad: bool = False,
+        weight_init: Callable[[Tensor], Tensor] = torch.nn.init.trunc_normal_,
         no_time_pad: bool = False,
+        **weight_init_kwargs,
     ) -> None:
         self.d_update_clip = d_update_clip
         self.dtype = dtype
@@ -95,6 +97,8 @@ class _LCAConvBase(torch.nn.Module):
         self.tau = tau
         self.track_metrics = track_metrics
         self.transfer_func = transfer_func
+        self.weight_init = weight_init
+        self.weight_init_kwargs = weight_init_kwargs
 
         os.makedirs(self.result_dir, exist_ok=True)
         self._write_params(deepcopy(vars(self)))
@@ -449,11 +453,11 @@ class _LCAConvBase(torch.nn.Module):
         """Writes model params to file"""
         arg_dict["dtype"] = str(arg_dict["dtype"])
         del arg_dict["lr_schedule"]
-        if callable(self.transfer_func):
-            arg_dict["transfer_func"] = self.transfer_func.__name__
         for key, val in arg_dict.items():
             if type(val) == tuple:
                 arg_dict[key] = list(val)
+            elif callable(val):
+                arg_dict[key] = val.__name__
         with open(os.path.join(self.result_dir, "params.yaml"), "w") as yamlf:
             yaml.dump(arg_dict, yamlf, sort_keys=True)
 
@@ -531,6 +535,10 @@ class LCAConv1D(_LCAConvBase):
             loop. This is useful when not using the built-in dictionary
             learning method, or for things like adversarial attacks.
             Default: False
+        weight_init (callable, optional): Initialization to use for the
+            dictionary weights. Default: truncated normal
+        **weight_init_kwargs: Keyword arguments for the method given to the
+            weight_init argument.
 
     Shape:
         Input: (N, in_neurons, L)
@@ -575,6 +583,8 @@ class LCAConv1D(_LCAConvBase):
         d_update_clip: float = np.inf,
         lr_schedule: Optional[Callable[[int], float]] = None,
         req_grad: bool = False,
+        weight_init: Callable[[Tensor], Tensor] = torch.nn.init.trunc_normal_,
+        **weight_init_kwargs,
     ) -> None:
         super(LCAConv1D, self).__init__(
             out_neurons,
@@ -599,17 +609,19 @@ class LCAConv1D(_LCAConvBase):
             d_update_clip,
             lr_schedule,
             req_grad,
+            weight_init,
             False,
+            **weight_init_kwargs,
         )
 
     def _init_weight_tensor(self) -> None:
-        weights = torch.randn(
+        weights = torch.empty(
             self.out_neurons,
             self.in_neurons,
             self.kernel_size if type(self.kernel_size) == int else self.kernel_size[0],
             dtype=self.dtype,
         )
-        weights[weights.abs() > 0.4] = 0.0
+        weights = self.weight_init(weights, **self.weight_init_kwargs)
         self.weights = torch.nn.Parameter(weights, requires_grad=self.req_grad)
         self.normalize_weights()
 
@@ -699,6 +711,10 @@ class LCAConv2D(_LCAConvBase):
             loop. This is useful when not using the built-in dictionary
             learning method, or for things like adversarial attacks.
             Default: False
+        weight_init (callable, optional): Initialization to use for the
+            dictionary weights. Default: truncated normal
+        **weight_init_kwargs: Keyword arguments for the method given to the
+            weight_init argument.
 
     Shape:
         Input: (N, in_neurons, H, W)
@@ -743,6 +759,8 @@ class LCAConv2D(_LCAConvBase):
         d_update_clip: float = np.inf,
         lr_schedule: Optional[Callable[[int], float]] = None,
         req_grad: bool = False,
+        weight_init: Callable[[Tensor], Tensor] = torch.nn.init.trunc_normal_,
+        **weight_init_kwargs,
     ) -> None:
         super(LCAConv2D, self).__init__(
             out_neurons,
@@ -767,18 +785,20 @@ class LCAConv2D(_LCAConvBase):
             d_update_clip,
             lr_schedule,
             req_grad,
+            weight_init,
             True,
+            **weight_init_kwargs,
         )
 
     def _init_weight_tensor(self) -> None:
-        weights = torch.randn(
+        weights = torch.empty(
             self.out_neurons,
             self.in_neurons,
             self.kernel_size if type(self.kernel_size) == int else self.kernel_size[0],
             self.kernel_size if type(self.kernel_size) == int else self.kernel_size[1],
             dtype=self.dtype,
         )
-        weights[weights.abs() > 0.4] = 0.0
+        weights = self.weight_init(weights, **self.weight_init_kwargs)
         self.weights = torch.nn.Parameter(weights, requires_grad=self.req_grad)
         self.normalize_weights()
 
@@ -868,10 +888,14 @@ class LCAConv3D(_LCAConvBase):
             loop. This is useful when not using the built-in dictionary
             learning method, or for things like adversarial attacks.
             Default: False
+        weight_init (callable, optional): Initialization to use for the
+            dictionary weights. Default: truncated normal
         no_time_pad (bool, optional): If True, no padding will be performed
             in dimension D regardless of the value of the pad argument.
             Allows for control over padding in the depth dimension that is
             independent of that in the spatial dimensions.
+        **weight_init_kwargs: Keyword arguments for the method given to the
+            weight_init argument.
 
     Shape:
         Input: (N, in_neurons, D, H, W)
@@ -917,7 +941,9 @@ class LCAConv3D(_LCAConvBase):
         d_update_clip: float = np.inf,
         lr_schedule: Optional[Callable[[int], float]] = None,
         req_grad: bool = False,
+        weight_init: Callable[[Tensor], Tensor] = torch.nn.init.trunc_normal_,
         no_time_pad: bool = False,
+        **weight_init_kwargs,
     ) -> None:
         super(LCAConv3D, self).__init__(
             out_neurons,
@@ -942,11 +968,13 @@ class LCAConv3D(_LCAConvBase):
             d_update_clip,
             lr_schedule,
             req_grad,
+            weight_init,
             no_time_pad,
+            **weight_init_kwargs,
         )
 
     def _init_weight_tensor(self) -> None:
-        weights = torch.randn(
+        weights = torch.empty(
             self.out_neurons,
             self.in_neurons,
             self.kernel_size if type(self.kernel_size) == int else self.kernel_size[0],
@@ -954,7 +982,7 @@ class LCAConv3D(_LCAConvBase):
             self.kernel_size if type(self.kernel_size) == int else self.kernel_size[2],
             dtype=self.dtype,
         )
-        weights[weights.abs() > 0.4] = 0.0
+        weights = self.weight_init(weights, **self.weight_init_kwargs)
         self.weights = torch.nn.Parameter(weights, requires_grad=self.req_grad)
         self.normalize_weights()
 
