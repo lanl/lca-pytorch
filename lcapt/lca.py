@@ -84,13 +84,12 @@ class _LCAConvBase(torch.nn.Module):
         if lr_schedule is not None:
             assert callable(lr_schedule)
         self.lr_schedule = lr_schedule
-        self.metric_fpath = os.path.join(result_dir, "metrics.xz")
         self.no_time_pad = no_time_pad
         self.nonneg = nonneg
         self.out_neurons = out_neurons
         self.pad = pad
         self.req_grad = req_grad
-        self.result_dir = result_dir
+        self.result_dir = os.path.abspath(result_dir)
         self.return_all_ts = return_all_ts
         self.return_vars = return_vars
         self.stride = stride
@@ -101,6 +100,7 @@ class _LCAConvBase(torch.nn.Module):
         self.weight_init_kwargs = weight_init_kwargs
 
         os.makedirs(self.result_dir, exist_ok=True)
+        self.metric_fpath = os.path.join(self.result_dir, "metrics.xz")
         self._write_params(deepcopy(vars(self)))
         self.kt, self.kh, self.kw = self._transform_conv_params(kernel_size)
         self.stridet, self.strideh, self.stridew = self._transform_conv_params(stride)
