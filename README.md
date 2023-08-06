@@ -107,7 +107,6 @@ Below is a mapping between the variable names used in this implementation and th
 
   * Dictionary Learning Using Built-In Update Method
     * [Dictionary Learning on Cifar-10 Images](https://github.com/lanl/lca-pytorch/blob/main/examples/builtin_dictionary_learning_cifar.ipynb)
-    * [Dictionary Learning on Google Speech Commands Audio](https://github.com/lanl/lca-pytorch/blob/main/examples/builtin_dictionary_learning_speech_commands.ipynb)  
     * [Fully-Connected Dictionary Learning on MNIST](https://github.com/lanl/lca-pytorch/blob/main/examples/builtin_dictionary_learning_mnist_fc.ipynb)
   
   * Dictionary Learning Using PyTorch Optimizer  
