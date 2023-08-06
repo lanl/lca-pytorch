@@ -56,7 +56,6 @@ class _LCAConvBase(torch.nn.Module):
             ]
         ] = ["acts"],
         return_all_ts: bool = False,
-        dtype: torch.dtype = torch.float32,
         nonneg: bool = True,
         track_metrics: bool = False,
         transfer_func: Union[
@@ -73,7 +72,6 @@ class _LCAConvBase(torch.nn.Module):
         **weight_init_kwargs,
     ) -> None:
         self.d_update_clip = d_update_clip
-        self.dtype = dtype
         self.eta = eta
         self.in_neurons = in_neurons
         self.input_unit_var = input_unit_var
@@ -116,7 +114,6 @@ class _LCAConvBase(torch.nn.Module):
     def assign_weight_values(self, tensor: Tensor, normalize: bool = True) -> None:
         """Manually assign weight tensor"""
         with torch.no_grad():
-            tensor = tensor.to(dtype=self.dtype)
             check_equal_shapes(self.weights, tensor, "weights")
             self.weights.copy_(tensor)
             if normalize:
@@ -451,7 +448,6 @@ class _LCAConvBase(torch.nn.Module):
 
     def _write_params(self, arg_dict: dict[str, Any]) -> None:
         """Writes model params to file"""
-        arg_dict["dtype"] = str(arg_dict["dtype"])
         del arg_dict["lr_schedule"]
         for key, val in arg_dict.items():
             if type(val) == tuple:
@@ -508,8 +504,6 @@ class LCAConv1D(_LCAConvBase):
         return_all_ts (bool, optional): Whether to return the value of
             return_vars at every LCA iteration (True) or just the last LCA
             iteration (False). Default: False
-        dtype (torch.dtype, optional): Dtype for all tensors.
-            Default: torch.float32
         nonneg (bool, optional): Enforces nonnegative activations.
             Default: True
         track_metrics (bool, optional): Whether to track the L1 sparsity
@@ -571,7 +565,6 @@ class LCAConv1D(_LCAConvBase):
             ]
         ] = ["acts"],
         return_all_ts: bool = False,
-        dtype: torch.dtype = torch.float32,
         nonneg: bool = True,
         track_metrics: bool = False,
         transfer_func: Union[
@@ -599,7 +592,6 @@ class LCAConv1D(_LCAConvBase):
             pad,
             return_vars,
             return_all_ts,
-            dtype,
             nonneg,
             track_metrics,
             transfer_func,
@@ -619,7 +611,6 @@ class LCAConv1D(_LCAConvBase):
             self.out_neurons,
             self.in_neurons,
             self.kernel_size if type(self.kernel_size) == int else self.kernel_size[0],
-            dtype=self.dtype,
         )
         weights = self.weight_init(weights, **self.weight_init_kwargs)
         self.weights = torch.nn.Parameter(weights, requires_grad=self.req_grad)
@@ -684,8 +675,6 @@ class LCAConv2D(_LCAConvBase):
         return_all_ts (bool, optional): Whether to return the value of
             return_vars at every LCA iteration (True) or just the last LCA
             iteration (False). Default: False
-        dtype (torch.dtype, optional): Dtype for all tensors.
-            Default: torch.float32
         nonneg (bool, optional): Enforces nonnegative activations.
             Default: True
         track_metrics (bool, optional): Whether to track the L1 sparsity
@@ -747,7 +736,6 @@ class LCAConv2D(_LCAConvBase):
             ]
         ] = ["acts"],
         return_all_ts: bool = False,
-        dtype: torch.dtype = torch.float32,
         nonneg: bool = True,
         track_metrics: bool = False,
         transfer_func: Union[
@@ -775,7 +763,6 @@ class LCAConv2D(_LCAConvBase):
             pad,
             return_vars,
             return_all_ts,
-            dtype,
             nonneg,
             track_metrics,
             transfer_func,
@@ -796,7 +783,6 @@ class LCAConv2D(_LCAConvBase):
             self.in_neurons,
             self.kernel_size if type(self.kernel_size) == int else self.kernel_size[0],
             self.kernel_size if type(self.kernel_size) == int else self.kernel_size[1],
-            dtype=self.dtype,
         )
         weights = self.weight_init(weights, **self.weight_init_kwargs)
         self.weights = torch.nn.Parameter(weights, requires_grad=self.req_grad)
@@ -861,8 +847,6 @@ class LCAConv3D(_LCAConvBase):
         return_all_ts (bool, optional): Whether to return the value of
             return_vars at every LCA iteration (True) or just the last LCA
             iteration (False). Default: False
-        dtype (torch.dtype, optional): Dtype for all tensors.
-            Default: torch.float32
         nonneg (bool, optional): Enforces nonnegative activations.
             Default: True
         track_metrics (bool, optional): Whether to track the L1 sparsity
@@ -929,7 +913,6 @@ class LCAConv3D(_LCAConvBase):
             ]
         ] = ["acts"],
         return_all_ts: bool = False,
-        dtype: torch.dtype = torch.float32,
         nonneg: bool = True,
         track_metrics: bool = False,
         transfer_func: Union[
@@ -958,7 +941,6 @@ class LCAConv3D(_LCAConvBase):
             pad,
             return_vars,
             return_all_ts,
-            dtype,
             nonneg,
             track_metrics,
             transfer_func,
@@ -980,7 +962,6 @@ class LCAConv3D(_LCAConvBase):
             self.kernel_size if type(self.kernel_size) == int else self.kernel_size[0],
             self.kernel_size if type(self.kernel_size) == int else self.kernel_size[1],
             self.kernel_size if type(self.kernel_size) == int else self.kernel_size[2],
-            dtype=self.dtype,
         )
         weights = self.weight_init(weights, **self.weight_init_kwargs)
         self.weights = torch.nn.Parameter(weights, requires_grad=self.req_grad)
