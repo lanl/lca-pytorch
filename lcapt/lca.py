@@ -40,9 +40,9 @@ class _LCAConvBase(torch.nn.Module):
         kernel_size: Union[int, tuple[int], tuple[int, int], tuple[int, int, int]] = 7,
         stride: Union[int, tuple[int], tuple[int, int], tuple[int, int, int]] = 1,
         lambda_: float = 0.25,
-        tau: Union[float, int] = 1000,
+        tau: Union[float, int] = 100,
         eta: float = 0.01,
-        lca_iters: int = 3000,
+        lca_iters: int = 1000,
         pad: Literal["same", "valid"] = "same",
         return_vars: Iterable[
             Literal[
@@ -549,9 +549,9 @@ class LCAConv1D(_LCAConvBase):
         kernel_size: Union[int, tuple[int]] = 7,
         stride: Union[int, tuple[int]] = 1,
         lambda_: float = 0.25,
-        tau: Union[float, int] = 1000,
+        tau: Union[float, int] = 100,
         eta: float = 0.01,
-        lca_iters: int = 3000,
+        lca_iters: int = 1000,
         pad: Literal["same", "valid"] = "same",
         return_vars: Iterable[
             Literal[
@@ -720,9 +720,9 @@ class LCAConv2D(_LCAConvBase):
         kernel_size: Union[int, tuple[int, int]] = 7,
         stride: Union[int, tuple[int, int]] = 1,
         lambda_: float = 0.25,
-        tau: Union[float, int] = 1000,
+        tau: Union[float, int] = 100,
         eta: float = 0.01,
-        lca_iters: int = 3000,
+        lca_iters: int = 1000,
         pad: Literal["same", "valid"] = "same",
         return_vars: Iterable[
             Literal[
@@ -897,9 +897,9 @@ class LCAConv3D(_LCAConvBase):
         kernel_size: Union[int, tuple[int, int, int]] = 7,
         stride: Union[int, tuple[int, int, int]] = 1,
         lambda_: float = 0.25,
-        tau: Union[float, int] = 1000,
+        tau: Union[float, int] = 100,
         eta: float = 0.01,
-        lca_iters: int = 3000,
+        lca_iters: int = 1000,
         pad: Literal["same", "valid"] = "same",
         return_vars: Iterable[
             Literal[
