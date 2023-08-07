@@ -2030,11 +2030,11 @@ class TestLCA(unittest.TestCase):
     def test_LCAConv1D_weight_initialization(self):
         with TemporaryDirectory() as tmp_dir:
             # zeros
-            lca = LCAConv1D(1000, 3, tmp_dir, weight_init=torch.nn.init.zeros_)
+            lca = LCAConv1D(1000, 3, tmp_dir, weight_init=(torch.nn.init.zeros_, {}))
             expected_weights = torch.zeros_like(lca.get_weights())
             self.assertEqual((lca.get_weights() - expected_weights).sum().item(), 0.0)
             # ones
-            lca = LCAConv1D(1000, 3, tmp_dir, weight_init=torch.nn.init.ones_)
+            lca = LCAConv1D(1000, 3, tmp_dir, weight_init=(torch.nn.init.ones_, {}))
             expected_weights = torch.ones_like(lca.get_weights())
             expected_weights = expected_weights / (
                 expected_weights.norm(2, (1, 2), True) + 1e-12
@@ -2044,11 +2044,11 @@ class TestLCA(unittest.TestCase):
     def test_LCAConv2D_weight_initialization(self):
         with TemporaryDirectory() as tmp_dir:
             # zeros
-            lca = LCAConv2D(1000, 3, tmp_dir, weight_init=torch.nn.init.zeros_)
+            lca = LCAConv2D(1000, 3, tmp_dir, weight_init=(torch.nn.init.zeros_, {}))
             expected_weights = torch.zeros_like(lca.get_weights())
             self.assertEqual((lca.get_weights() - expected_weights).sum().item(), 0.0)
             # ones
-            lca = LCAConv2D(1000, 3, tmp_dir, weight_init=torch.nn.init.ones_)
+            lca = LCAConv2D(1000, 3, tmp_dir, weight_init=(torch.nn.init.ones_, {}))
             expected_weights = torch.ones_like(lca.get_weights())
             expected_weights = expected_weights / (
                 expected_weights.norm(2, (1, 2, 3), True) + 1e-12
@@ -2058,11 +2058,11 @@ class TestLCA(unittest.TestCase):
     def test_LCAConv3D_weight_initialization(self):
         with TemporaryDirectory() as tmp_dir:
             # zeros
-            lca = LCAConv3D(1000, 3, tmp_dir, weight_init=torch.nn.init.zeros_)
+            lca = LCAConv3D(1000, 3, tmp_dir, weight_init=(torch.nn.init.zeros_, {}))
             expected_weights = torch.zeros_like(lca.get_weights())
             self.assertEqual((lca.get_weights() - expected_weights).sum().item(), 0.0)
             # ones
-            lca = LCAConv3D(1000, 3, tmp_dir, weight_init=torch.nn.init.ones_)
+            lca = LCAConv3D(1000, 3, tmp_dir, weight_init=(torch.nn.init.ones_, {}))
             expected_weights = torch.ones_like(lca.get_weights())
             expected_weights = expected_weights / (
                 expected_weights.norm(2, (1, 2, 3, 4), True) + 1e-12
@@ -2071,21 +2071,27 @@ class TestLCA(unittest.TestCase):
 
     def test_LCAConv1D_weight_init_kwargs(self):
         with TemporaryDirectory() as tmp_dir:
-            LCAConv1D(10, 3, tmp_dir, weight_init=torch.nn.init.constant_, val=25)
+            LCAConv1D(
+                10, 3, tmp_dir, weight_init=(torch.nn.init.constant_, {"val": 25})
+            )
             with self.assertRaises(TypeError):
-                LCAConv1D(10, 3, tmp_dir, weight_init=torch.nn.init.constant_)
+                LCAConv1D(10, 3, tmp_dir, weight_init=(torch.nn.init.constant_, {}))
 
     def test_LCAConv2D_weight_init_kwargs(self):
         with TemporaryDirectory() as tmp_dir:
-            LCAConv2D(10, 3, tmp_dir, weight_init=torch.nn.init.constant_, val=25)
+            LCAConv2D(
+                10, 3, tmp_dir, weight_init=(torch.nn.init.constant_, {"val": 25})
+            )
             with self.assertRaises(TypeError):
-                LCAConv2D(10, 3, tmp_dir, weight_init=torch.nn.init.constant_)
+                LCAConv2D(10, 3, tmp_dir, weight_init=(torch.nn.init.constant_, {}))
 
     def test_LCAConv3D_weight_init_kwargs(self):
         with TemporaryDirectory() as tmp_dir:
-            LCAConv3D(10, 3, tmp_dir, weight_init=torch.nn.init.constant_, val=25)
+            LCAConv3D(
+                10, 3, tmp_dir, weight_init=(torch.nn.init.constant_, {"val": 25})
+            )
             with self.assertRaises(TypeError):
-                LCAConv3D(10, 3, tmp_dir, weight_init=torch.nn.init.constant_)
+                LCAConv3D(10, 3, tmp_dir, weight_init=(torch.nn.init.constant_, {}))
 
 
 if __name__ == "__main__":
