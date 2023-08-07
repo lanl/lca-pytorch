@@ -67,9 +67,11 @@ class _LCAConvBase(torch.nn.Module):
         d_update_clip: float = np.inf,
         lr_schedule: Optional[Callable[[int], float]] = None,
         req_grad: bool = False,
-        weight_init: Callable[[Tensor], Tensor] = torch.nn.init.trunc_normal_,
+        weight_init: tuple[Callable[[Tensor], Tensor], dict[str, Any]] = (
+            torch.nn.init.trunc_normal_,
+            {},
+        ),
         no_time_pad: bool = False,
-        **weight_init_kwargs,
     ) -> None:
         self.d_update_clip = d_update_clip
         self.eta = eta
@@ -94,8 +96,8 @@ class _LCAConvBase(torch.nn.Module):
         self.tau = tau
         self.track_metrics = track_metrics
         self.transfer_func = transfer_func
-        self.weight_init = weight_init
-        self.weight_init_kwargs = weight_init_kwargs
+        self.weight_init = weight_init[0]
+        self.weight_init_kwargs = weight_init[1]
 
         os.makedirs(self.result_dir, exist_ok=True)
         self.metric_fpath = os.path.join(self.result_dir, "metrics.xz")
@@ -529,10 +531,9 @@ class LCAConv1D(_LCAConvBase):
             loop. This is useful when not using the built-in dictionary
             learning method, or for things like adversarial attacks.
             Default: False
-        weight_init (callable, optional): Initialization to use for the
-            dictionary weights. Default: truncated normal
-        **weight_init_kwargs: Keyword arguments for the method given to the
-            weight_init argument.
+        weight_init (tuple(callable, dict), optional): Initialization to use
+            for the dictionary weights and a dictionary of keyword arguments
+            for that initialization. Default: truncated normal, default args
 
     Shape:
         Input: (N, in_neurons, L)
@@ -576,8 +577,10 @@ class LCAConv1D(_LCAConvBase):
         d_update_clip: float = np.inf,
         lr_schedule: Optional[Callable[[int], float]] = None,
         req_grad: bool = False,
-        weight_init: Callable[[Tensor], Tensor] = torch.nn.init.trunc_normal_,
-        **weight_init_kwargs,
+        weight_init: tuple[Callable[[Tensor], Tensor], dict[str, Any]] = (
+            torch.nn.init.trunc_normal_,
+            {},
+        ),
     ) -> None:
         super(LCAConv1D, self).__init__(
             out_neurons,
@@ -603,7 +606,6 @@ class LCAConv1D(_LCAConvBase):
             req_grad,
             weight_init,
             False,
-            **weight_init_kwargs,
         )
 
     def _init_weight_tensor(self) -> None:
@@ -700,10 +702,9 @@ class LCAConv2D(_LCAConvBase):
             loop. This is useful when not using the built-in dictionary
             learning method, or for things like adversarial attacks.
             Default: False
-        weight_init (callable, optional): Initialization to use for the
-            dictionary weights. Default: truncated normal
-        **weight_init_kwargs: Keyword arguments for the method given to the
-            weight_init argument.
+        weight_init (tuple(callable, dict), optional): Initialization to use
+            for the dictionary weights and a dictionary of keyword arguments
+            for that initialization. Default: truncated normal, default args
 
     Shape:
         Input: (N, in_neurons, H, W)
@@ -747,8 +748,10 @@ class LCAConv2D(_LCAConvBase):
         d_update_clip: float = np.inf,
         lr_schedule: Optional[Callable[[int], float]] = None,
         req_grad: bool = False,
-        weight_init: Callable[[Tensor], Tensor] = torch.nn.init.trunc_normal_,
-        **weight_init_kwargs,
+        weight_init: tuple[Callable[[Tensor], Tensor], dict[str, Any]] = (
+            torch.nn.init.trunc_normal_,
+            {},
+        ),
     ) -> None:
         super(LCAConv2D, self).__init__(
             out_neurons,
@@ -774,7 +777,6 @@ class LCAConv2D(_LCAConvBase):
             req_grad,
             weight_init,
             True,
-            **weight_init_kwargs,
         )
 
     def _init_weight_tensor(self) -> None:
@@ -872,14 +874,13 @@ class LCAConv3D(_LCAConvBase):
             loop. This is useful when not using the built-in dictionary
             learning method, or for things like adversarial attacks.
             Default: False
-        weight_init (callable, optional): Initialization to use for the
-            dictionary weights. Default: truncated normal
+        weight_init (tuple(callable, dict), optional): Initialization to use
+            for the dictionary weights and a dictionary of keyword arguments
+            for that initialization. Default: truncated normal, default args
         no_time_pad (bool, optional): If True, no padding will be performed
             in dimension D regardless of the value of the pad argument.
             Allows for control over padding in the depth dimension that is
             independent of that in the spatial dimensions.
-        **weight_init_kwargs: Keyword arguments for the method given to the
-            weight_init argument.
 
     Shape:
         Input: (N, in_neurons, D, H, W)
@@ -924,9 +925,11 @@ class LCAConv3D(_LCAConvBase):
         d_update_clip: float = np.inf,
         lr_schedule: Optional[Callable[[int], float]] = None,
         req_grad: bool = False,
-        weight_init: Callable[[Tensor], Tensor] = torch.nn.init.trunc_normal_,
+        weight_init: tuple[Callable[[Tensor], Tensor], dict[str, Any]] = (
+            torch.nn.init.trunc_normal_,
+            {},
+        ),
         no_time_pad: bool = False,
-        **weight_init_kwargs,
     ) -> None:
         super(LCAConv3D, self).__init__(
             out_neurons,
@@ -952,7 +955,6 @@ class LCAConv3D(_LCAConvBase):
             req_grad,
             weight_init,
             no_time_pad,
-            **weight_init_kwargs,
         )
 
     def _init_weight_tensor(self) -> None:
