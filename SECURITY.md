@@ -22,12 +22,12 @@ We apply the following disclosure process:
 
 1. When a report is received, we confirm the issue and determine its severity.
 
-2. If we know of specific third-party services or software based on ART that require mitigation before publication, those projects will be notified.
+2. If we know of specific third-party services or software based on LCA-PyTorch that require mitigation before publication, those projects will be notified.
 
 3. An advisory is prepared (but not published) which details the problem and steps for mitigation.
 
 4. The vulnerability is fixed and potential workarounds are identified.
 
-5. Wherever possible, the fix is also prepared for the branches corresponding to all releases of ART at most one year old. We will attempt to commit these fixes as soon as possible, and as close together as possible.
+5. Wherever possible, the fix is also prepared for the branches corresponding to all releases of LCA-PyTorch at most one year old. We will attempt to commit these fixes as soon as possible, and as close together as possible.
 
 6. Patch releases are published for all fixed released versions and the advisory is published.
