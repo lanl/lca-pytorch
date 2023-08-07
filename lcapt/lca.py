@@ -69,7 +69,7 @@ class _LCAConvBase(torch.nn.Module):
         req_grad: bool = False,
         weight_init: Callable[[Tensor], Tensor] = torch.nn.init.trunc_normal_,
         no_time_pad: bool = False,
-        **weight_init_kwargs,
+        weight_init_kwargs: dict[str, Any] = {},
     ) -> None:
         self.d_update_clip = d_update_clip
         self.eta = eta
@@ -531,8 +531,8 @@ class LCAConv1D(_LCAConvBase):
             Default: False
         weight_init (callable, optional): Initialization to use for the
             dictionary weights. Default: truncated normal
-        **weight_init_kwargs: Keyword arguments for the method given to the
-            weight_init argument.
+        weight_init_kwargs (dict, optional): Keyword arguments for the method
+            given to weight_init.
 
     Shape:
         Input: (N, in_neurons, L)
@@ -577,7 +577,7 @@ class LCAConv1D(_LCAConvBase):
         lr_schedule: Optional[Callable[[int], float]] = None,
         req_grad: bool = False,
         weight_init: Callable[[Tensor], Tensor] = torch.nn.init.trunc_normal_,
-        **weight_init_kwargs,
+        weight_init_kwargs: dict[str, Any] = {},
     ) -> None:
         super(LCAConv1D, self).__init__(
             out_neurons,
@@ -603,7 +603,7 @@ class LCAConv1D(_LCAConvBase):
             req_grad,
             weight_init,
             False,
-            **weight_init_kwargs,
+            weight_init_kwargs,
         )
 
     def _init_weight_tensor(self) -> None:
@@ -702,8 +702,8 @@ class LCAConv2D(_LCAConvBase):
             Default: False
         weight_init (callable, optional): Initialization to use for the
             dictionary weights. Default: truncated normal
-        **weight_init_kwargs: Keyword arguments for the method given to the
-            weight_init argument.
+        weight_init_kwargs (dict, optional): Keyword arguments for the method
+            given to weight_init.
 
     Shape:
         Input: (N, in_neurons, H, W)
@@ -748,7 +748,7 @@ class LCAConv2D(_LCAConvBase):
         lr_schedule: Optional[Callable[[int], float]] = None,
         req_grad: bool = False,
         weight_init: Callable[[Tensor], Tensor] = torch.nn.init.trunc_normal_,
-        **weight_init_kwargs,
+        weight_init_kwargs: dict[str, Any] = {},
     ) -> None:
         super(LCAConv2D, self).__init__(
             out_neurons,
@@ -774,7 +774,7 @@ class LCAConv2D(_LCAConvBase):
             req_grad,
             weight_init,
             True,
-            **weight_init_kwargs,
+            weight_init_kwargs,
         )
 
     def _init_weight_tensor(self) -> None:
@@ -878,8 +878,8 @@ class LCAConv3D(_LCAConvBase):
             in dimension D regardless of the value of the pad argument.
             Allows for control over padding in the depth dimension that is
             independent of that in the spatial dimensions.
-        **weight_init_kwargs: Keyword arguments for the method given to the
-            weight_init argument.
+        weight_init_kwargs (dict, optional): Keyword arguments for the method
+            given to weight_init.
 
     Shape:
         Input: (N, in_neurons, D, H, W)
@@ -926,7 +926,7 @@ class LCAConv3D(_LCAConvBase):
         req_grad: bool = False,
         weight_init: Callable[[Tensor], Tensor] = torch.nn.init.trunc_normal_,
         no_time_pad: bool = False,
-        **weight_init_kwargs,
+        weight_init_kwargs: dict[str, Any] = {},
     ) -> None:
         super(LCAConv3D, self).__init__(
             out_neurons,
@@ -952,7 +952,7 @@ class LCAConv3D(_LCAConvBase):
             req_grad,
             weight_init,
             no_time_pad,
-            **weight_init_kwargs,
+            weight_init_kwargs,
         )
 
     def _init_weight_tensor(self) -> None:
