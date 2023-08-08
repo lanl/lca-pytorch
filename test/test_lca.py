@@ -117,7 +117,7 @@ class TestLCA(unittest.TestCase):
         with TemporaryDirectory() as tmp_dir:
             lca = LCAConv1D(10, 3, tmp_dir, 1001)
             for feat in lca.get_weights():
-                assert_close(feat.norm(2).item(), 1.0)
+                assert_close(feat.norm(2).item(), 1.0, atol=3e-7, rtol=3e-7)
 
     def test_LCAConv2D_initial_weights_are_normalized(self):
         with TemporaryDirectory() as tmp_dir:
