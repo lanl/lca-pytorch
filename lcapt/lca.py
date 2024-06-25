@@ -399,8 +399,8 @@ class _LCAConvBase(torch.nn.Module):
                 return hard_threshold(x, self.lambda_, self.nonneg)
             else:
                 raise ValueError(
-                    f"If transfer_func is a str, it should be 'soft_threshold' or 'hard_threshold', ",
-                    "but got '{self.transfer_func}'."
+                    "If transfer_func is a str, it should be 'soft_threshold' or 'hard_threshold', ",
+                    f"but got '{self.transfer_func}'."
                 )
         elif callable(self.transfer_func):
             return self.transfer_func(x)
