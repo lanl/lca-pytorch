@@ -360,7 +360,7 @@ class _LCAConvBase(torch.nn.Module):
         if initial_states is None:
             return torch.zeros_like(input_drive, requires_grad=self.req_grad)
         else:
-            check_equal_shapes(input_drive, initial_states, "initial_states")
+            check_equal_shapes(input_drive, initial_states)
             return initial_states.detach().clone().requires_grad_(self.req_grad)
 
     def _init_weight_tensor(self) -> None:
@@ -383,7 +383,7 @@ class _LCAConvBase(torch.nn.Module):
         if drive_scaling is None:
             return input_drive
         else:
-            check_equal_shapes(input_drive, drive_scaling, "drive_scaling")
+            check_equal_shapes(input_drive, drive_scaling)
             return input_drive + drive_scaling
 
     def _to_correct_shape(
