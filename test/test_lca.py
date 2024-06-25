@@ -2093,6 +2093,15 @@ class TestLCA(unittest.TestCase):
             with self.assertRaises(TypeError):
                 LCAConv3D(10, 3, tmp_dir, weight_init=(torch.nn.init.constant_, {}))
 
+    def test_LCA_assign_weight_values_different_dtype(self):
+        with TemporaryDirectory() as tmp_dir:
+            lca = LCAConv2D(10, 3, tmp_dir, kernel_size=7)
+            new_weights32 = torch.randn(10, 3, 7, 7)
+            new_weights16 = torch.randn(10, 3, 7, 7, dtype=torch.float16)
+            self.assertIsNone(lca.assign_weight_values(new_weights32))
+            with self.assertRaises(RuntimeError):
+                lca.assign_weight_values(new_weights16)
+
 
 if __name__ == "__main__":
     unittest.main()

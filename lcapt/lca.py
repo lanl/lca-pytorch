@@ -20,6 +20,7 @@ from .metric import (
 from .preproc import make_unit_var, make_zero_mean
 from .util import (
     check_equal_shapes,
+    check_equal_dtypes,
     to_3d_from_5d,
     to_4d_from_5d,
     to_5d_from_3d,
@@ -116,7 +117,8 @@ class _LCAConvBase(torch.nn.Module):
     def assign_weight_values(self, tensor: Tensor, normalize: bool = True) -> None:
         """Manually assign weight tensor"""
         with torch.no_grad():
-            check_equal_shapes(self.weights, tensor, "weights")
+            check_equal_shapes(self.weights, tensor)
+            check_equal_dtypes(self.weights, tensor)
             self.weights.copy_(tensor)
             if normalize:
                 self.normalize_weights()
@@ -358,7 +360,7 @@ class _LCAConvBase(torch.nn.Module):
         if initial_states is None:
             return torch.zeros_like(input_drive, requires_grad=self.req_grad)
         else:
-            check_equal_shapes(input_drive, initial_states, "initial_states")
+            check_equal_shapes(input_drive, initial_states)
             return initial_states.detach().clone().requires_grad_(self.req_grad)
 
     def _init_weight_tensor(self) -> None:
@@ -381,7 +383,7 @@ class _LCAConvBase(torch.nn.Module):
         if drive_scaling is None:
             return input_drive
         else:
-            check_equal_shapes(input_drive, drive_scaling, "drive_scaling")
+            check_equal_shapes(input_drive, drive_scaling)
             return input_drive + drive_scaling
 
     def _to_correct_shape(

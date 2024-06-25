@@ -4,11 +4,19 @@ import torch
 Tensor = torch.Tensor
 
 
-def check_equal_shapes(tensor1: Tensor, tensor2: Tensor, name: str) -> None:
-    """Checks to see if tensor2 called name is the same shape as tensor1."""
+def check_equal_shapes(tensor1: Tensor, tensor2: Tensor) -> None:
+    """Checks to see if tensor1 and tensor2 have the same shape."""
     if tensor1.shape != tensor2.shape:
         raise RuntimeError(
-            f"Expected shape {tensor1.shape} for tensor {name}, but got {tensor2.shape}."
+            f"Expected shape {tensor1.shape}, but got {tensor2.shape}."
+        )
+
+
+def check_equal_dtypes(tensor1: Tensor, tensor2: Tensor) -> None:
+    """Checks to see if tensor1 and tensor2 have the same dtype."""
+    if tensor1.dtype != tensor2.dtype:
+        raise RuntimeError(
+            f"Expected dtype {tensor1.dtype}, but got {tensor2.dtype}."
         )
 
 
