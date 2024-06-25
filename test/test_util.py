@@ -5,6 +5,7 @@ from torch.testing import assert_close, make_tensor
 
 from lcapt.util import (
     check_equal_shapes,
+    check_equal_dtypes,
     to_3d_from_5d,
     to_4d_from_5d,
     to_5d_from_3d,
@@ -89,6 +90,17 @@ class TestUtil(unittest.TestCase):
         tensor1 = torch.zeros(10, 3, 9, 9)
         tensor2 = tensor1.clone()
         self.assertIsNone(check_equal_shapes(tensor1, tensor2, "test"))
+
+    def test_check_equal_dtypes_passes(self):
+        tensor1 = torch.randn(10, 3, 5, 7, dtype=torch.float32)
+        tensor2 = torch.randn(10, 1, 3, 5, dtype=torch.float32)
+        self.assertIsNone(check_equal_dtypes(tensor1, tensor2, "test"))
+
+    def test_check_equal_dtypes_raises_RuntimeError(self):
+        tensor1 = torch.randn(10, 3, 5, 7, dtype=torch.float32)
+        tensor2 = torch.randn(10, 1, 3, 5, dtype=torch.float16)
+        with self.assertRaises(RuntimeError):
+            check_equal_dtypes(tensor1, tensor2, "test")
 
 
 if __name__ == "__main__":

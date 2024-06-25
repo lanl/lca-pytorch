@@ -12,6 +12,14 @@ def check_equal_shapes(tensor1: Tensor, tensor2: Tensor, name: str) -> None:
         )
 
 
+def check_equal_dtypes(tensor1: Tensor, tensor2: Tensor, name: str) -> None:
+    """Checks to see if tensor2 called name has the same dtype as tensor1."""
+    if tensor1.dtype != tensor2.dtype:
+        raise RuntimeError(
+            f"Expected dtype {tensor1.dtype} for tensor {name}, but got {tensor2.dtype}."
+        )
+
+
 def to_5d_from_3d(inputs: Tensor) -> Tensor:
     assert len(inputs.shape) == 3
     return inputs.unsqueeze(-1).unsqueeze(-1)

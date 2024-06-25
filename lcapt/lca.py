@@ -20,6 +20,7 @@ from .metric import (
 from .preproc import make_unit_var, make_zero_mean
 from .util import (
     check_equal_shapes,
+    check_equal_dtypes,
     to_3d_from_5d,
     to_4d_from_5d,
     to_5d_from_3d,
@@ -117,6 +118,7 @@ class _LCAConvBase(torch.nn.Module):
         """Manually assign weight tensor"""
         with torch.no_grad():
             check_equal_shapes(self.weights, tensor, "weights")
+            check_equal_dtypes(self.weights, tensor, "weights")
             self.weights.copy_(tensor)
             if normalize:
                 self.normalize_weights()
