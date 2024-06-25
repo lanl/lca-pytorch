@@ -117,8 +117,8 @@ class _LCAConvBase(torch.nn.Module):
     def assign_weight_values(self, tensor: Tensor, normalize: bool = True) -> None:
         """Manually assign weight tensor"""
         with torch.no_grad():
-            check_equal_shapes(self.weights, tensor, "weights")
-            check_equal_dtypes(self.weights, tensor, "weights")
+            check_equal_shapes(self.weights, tensor)
+            check_equal_dtypes(self.weights, tensor)
             self.weights.copy_(tensor)
             if normalize:
                 self.normalize_weights()
