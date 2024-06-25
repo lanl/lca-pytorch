@@ -392,14 +392,15 @@ class _LCAConvBase(torch.nn.Module):
         pass
 
     def transfer(self, x: Tensor) -> Tensor:
-        if type(self.transfer_func) == str:
+        if type(self.transfer_func) is str:
             if self.transfer_func == "soft_threshold":
                 return soft_threshold(x, self.lambda_, self.nonneg)
             elif self.transfer_func == "hard_threshold":
                 return hard_threshold(x, self.lambda_, self.nonneg)
             else:
                 raise ValueError(
-                    f"If transfer_func is a str, it should be 'soft_threshold' or 'hard_threshold', but got '{self.transfer_func}'."
+                    f"If transfer_func is a str, it should be 'soft_threshold' or 'hard_threshold', ",
+                    "but got '{self.transfer_func}'."
                 )
         elif callable(self.transfer_func):
             return self.transfer_func(x)
@@ -454,7 +455,7 @@ class _LCAConvBase(torch.nn.Module):
         """Writes model params to file"""
         del arg_dict["lr_schedule"]
         for key, val in arg_dict.items():
-            if type(val) == tuple:
+            if type(val) is tuple:
                 arg_dict[key] = list(val)
             elif callable(val):
                 arg_dict[key] = val.__name__
@@ -614,7 +615,7 @@ class LCAConv1D(_LCAConvBase):
         weights = torch.empty(
             self.out_neurons,
             self.in_neurons,
-            self.kernel_size if type(self.kernel_size) == int else self.kernel_size[0],
+            self.kernel_size if type(self.kernel_size) is int else self.kernel_size[0],
         )
         weights = self.weight_init(weights, **self.weight_init_kwargs)
         self.weights = torch.nn.Parameter(weights, requires_grad=self.req_grad)
@@ -635,9 +636,9 @@ class LCAConv1D(_LCAConvBase):
     def _transform_conv_params(
         self, val: Union[int, tuple[int]]
     ) -> tuple[int, int, int]:
-        if type(val) == int:
+        if type(val) is int:
             return (val, 1, 1)
-        elif type(val) == tuple:
+        elif type(val) is tuple:
             if len(val) == 1:
                 return val + (1, 1)
             else:
@@ -785,8 +786,8 @@ class LCAConv2D(_LCAConvBase):
         weights = torch.empty(
             self.out_neurons,
             self.in_neurons,
-            self.kernel_size if type(self.kernel_size) == int else self.kernel_size[0],
-            self.kernel_size if type(self.kernel_size) == int else self.kernel_size[1],
+            self.kernel_size if type(self.kernel_size) is int else self.kernel_size[0],
+            self.kernel_size if type(self.kernel_size) is int else self.kernel_size[1],
         )
         weights = self.weight_init(weights, **self.weight_init_kwargs)
         self.weights = torch.nn.Parameter(weights, requires_grad=self.req_grad)
@@ -807,9 +808,9 @@ class LCAConv2D(_LCAConvBase):
     def _transform_conv_params(
         self, val: Union[int, tuple[int, int]]
     ) -> tuple[int, int, int]:
-        if type(val) == int:
+        if type(val) is int:
             return (1, val, val)
-        elif type(val) == tuple:
+        elif type(val) is tuple:
             if len(val) == 2:
                 return (1,) + val
             else:
@@ -963,9 +964,9 @@ class LCAConv3D(_LCAConvBase):
         weights = torch.empty(
             self.out_neurons,
             self.in_neurons,
-            self.kernel_size if type(self.kernel_size) == int else self.kernel_size[0],
-            self.kernel_size if type(self.kernel_size) == int else self.kernel_size[1],
-            self.kernel_size if type(self.kernel_size) == int else self.kernel_size[2],
+            self.kernel_size if type(self.kernel_size) is int else self.kernel_size[0],
+            self.kernel_size if type(self.kernel_size) is int else self.kernel_size[1],
+            self.kernel_size if type(self.kernel_size) is int else self.kernel_size[2],
         )
         weights = self.weight_init(weights, **self.weight_init_kwargs)
         self.weights = torch.nn.Parameter(weights, requires_grad=self.req_grad)
@@ -984,9 +985,9 @@ class LCAConv3D(_LCAConvBase):
     def _transform_conv_params(
         self, val: Union[int, tuple[int, int, int]]
     ) -> tuple[int, int, int]:
-        if type(val) == int:
+        if type(val) is int:
             return (val,) * 3
-        elif type(val) == tuple:
+        elif type(val) is tuple:
             if len(val) == 3:
                 return val
             else:
