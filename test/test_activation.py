@@ -25,7 +25,7 @@ class TestActivations(unittest.TestCase):
         outputs = hard_threshold(inputs, 0.2)
         n_inputs = inputs.numel()
         assert_close(
-            inputs[n_inputs // 2 :], outputs[n_inputs // 2 :], rtol=0.0, atol=0.0
+            inputs[n_inputs // 2:], outputs[n_inputs // 2:], rtol=0.0, atol=0.0
         )
         assert_close(
             torch.zeros(n_inputs // 2), outputs[: n_inputs // 2], rtol=0.0, atol=0.0
@@ -65,10 +65,10 @@ class TestActivations(unittest.TestCase):
         inputs = create_test_input()
         outputs = soft_threshold(inputs, 0.2)
         n_inputs = inputs.numel()
-        expected = inputs[n_inputs // 2 :]
+        expected = inputs[n_inputs // 2:]
         assert_close(
             expected - 0.2 * expected.sign(),
-            outputs[n_inputs // 2 :],
+            outputs[n_inputs // 2:],
             rtol=0.0,
             atol=0.0,
         )

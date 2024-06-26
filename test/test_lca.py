@@ -1790,7 +1790,7 @@ class TestLCA(unittest.TestCase):
             inputs, lca_code = lca(inputs)
             sklearn_inputs = torch.vstack(
                 [
-                    inputs.squeeze()[idx : idx + lca.kernel_size]
+                    inputs.squeeze()[idx: idx + lca.kernel_size]
                     for idx in range(0, inputs.shape[-1], lca.kernel_size)
                 ]
             )
