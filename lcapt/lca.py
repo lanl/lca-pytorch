@@ -64,7 +64,6 @@ class _LCAConvBase(torch.nn.Module):
         ] = "soft_threshold",
         input_zero_mean: bool = True,
         input_unit_var: bool = True,
-        cudnn_benchmark: bool = True,
         d_update_clip: float = np.inf,
         lr_schedule: Optional[Callable[[int], float]] = None,
         req_grad: bool = False,
@@ -110,9 +109,6 @@ class _LCAConvBase(torch.nn.Module):
         super(_LCAConvBase, self).__init__()
         self._init_weight_tensor()
         self.register_buffer("forward_pass", torch.tensor(1))
-
-        if cudnn_benchmark and torch.backends.cudnn.enabled:
-            torch.backends.cudnn.benchmark = True
 
     def assign_weight_values(self, tensor: Tensor, normalize: bool = True) -> None:
         """Manually assign weight tensor"""
@@ -400,7 +396,7 @@ class _LCAConvBase(torch.nn.Module):
             else:
                 raise ValueError(
                     "If transfer_func is a str, it should be 'soft_threshold' or 'hard_threshold', ",
-                    f"but got '{self.transfer_func}'."
+                    f"but got '{self.transfer_func}'.",
                 )
         elif callable(self.transfer_func):
             return self.transfer_func(x)
@@ -523,7 +519,6 @@ class LCAConv1D(_LCAConvBase):
             batch have zero mean before performing LCA. Default: True
         input_unit_var (bool, optional): Whether to make each input in the
             batch have unit variance before performing LCA. Default: True
-        cudnn_benchmark (bool, optional): Use CUDNN benchmark. Default: True
         d_update_clip (float, optional): Clips weight updates from above and
             below when using built-in update method. Default: np.inf
         lr_schedule (callable, optional): Schedule for eta when using the
@@ -576,7 +571,6 @@ class LCAConv1D(_LCAConvBase):
         ] = "soft_threshold",
         input_zero_mean: bool = True,
         input_unit_var: bool = True,
-        cudnn_benchmark: bool = True,
         d_update_clip: float = np.inf,
         lr_schedule: Optional[Callable[[int], float]] = None,
         req_grad: bool = False,
@@ -603,7 +597,6 @@ class LCAConv1D(_LCAConvBase):
             transfer_func,
             input_zero_mean,
             input_unit_var,
-            cudnn_benchmark,
             d_update_clip,
             lr_schedule,
             req_grad,
@@ -694,7 +687,6 @@ class LCAConv2D(_LCAConvBase):
             batch have zero mean before performing LCA. Default: True
         input_unit_var (bool, optional): Whether to make each input in the
             batch have unit variance before performing LCA. Default: True
-        cudnn_benchmark (bool, optional): Use CUDNN benchmark. Default: True
         d_update_clip (float, optional): Clips weight updates from above and
             below when using built-in update method. Default: np.inf
         lr_schedule (callable, optional): Schedule for eta when using the
@@ -747,7 +739,6 @@ class LCAConv2D(_LCAConvBase):
         ] = "soft_threshold",
         input_zero_mean: bool = True,
         input_unit_var: bool = True,
-        cudnn_benchmark: bool = True,
         d_update_clip: float = np.inf,
         lr_schedule: Optional[Callable[[int], float]] = None,
         req_grad: bool = False,
@@ -774,7 +765,6 @@ class LCAConv2D(_LCAConvBase):
             transfer_func,
             input_zero_mean,
             input_unit_var,
-            cudnn_benchmark,
             d_update_clip,
             lr_schedule,
             req_grad,
@@ -866,7 +856,6 @@ class LCAConv3D(_LCAConvBase):
             batch have zero mean before performing LCA. Default: True
         input_unit_var (bool, optional): Whether to make each input in the
             batch have unit variance before performing LCA. Default: True
-        cudnn_benchmark (bool, optional): Use CUDNN benchmark. Default: True
         d_update_clip (float, optional): Clips weight updates from above and
             below when using built-in update method. Default: np.inf
         lr_schedule (callable, optional): Schedule for eta when using the
@@ -924,7 +913,6 @@ class LCAConv3D(_LCAConvBase):
         ] = "soft_threshold",
         input_zero_mean: bool = True,
         input_unit_var: bool = True,
-        cudnn_benchmark: bool = True,
         d_update_clip: float = np.inf,
         lr_schedule: Optional[Callable[[int], float]] = None,
         req_grad: bool = False,
@@ -952,7 +940,6 @@ class LCAConv3D(_LCAConvBase):
             transfer_func,
             input_zero_mean,
             input_unit_var,
-            cudnn_benchmark,
             d_update_clip,
             lr_schedule,
             req_grad,
